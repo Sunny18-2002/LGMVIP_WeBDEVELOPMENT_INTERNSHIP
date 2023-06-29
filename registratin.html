@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration Form</title>
+  <style>
+   body {
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+}
+
+.form-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+  text-align: center;
+  font-size: 1.8em;
+  margin-bottom: 20px;
+
+}
+
+.form-container label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="number"],
+.form-container input[type="file"] {
+  width: 100%;
+  margin-top: 5px;
+  padding-bottom: 5px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-container label.checkbox-label {
+  display: inline;
+  margin-right: 10px;
+  font-weight: normal;
+}
+
+.form-container .submit-btn {
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+  padding: 15px 25px;
+  margin-top: 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form-container .submitted-data {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.submitted-data h3 {
+  margin-top: 0;
+}
+
+.submitted-data .data-entry:not(:last-child) {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.submitted-data img {
+  max-width: 100px;
+  max-height: 100px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+   
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Registration Form</h2>
+    <form id="registration-form">
+      <label for="name">Name:</label>
+      <input type="text" id="name" required>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" required>
+
+      <label for="age">Age:</label>
+      <input type="number" id="age" required>
+  
+      <label for="image">Image:</label>
+      <input type="file" id="image" class="image" accept="image/*" required>
+  
+      <label>Interests:</label>
+      <label class="checkbox-label">
+        <input type="checkbox" name="languages" value="Java"> Java
+      </label><br>
+      <label class="checkbox-label">
+        <input type="checkbox" name="languages" value="Python"> Python
+      </label><br>
+      <label class="checkbox-label">
+        <input type="checkbox" name="languages" value="MySQL"> MySQL
+      </label><br>
+      <label class="checkbox-label">
+        <input type="checkbox" name="languages" value="JavaScript"> JavaScript
+      </label><br>
+
+      <input type="submit" class="submit-btn" value="Submit">
+    </form>
+
+    <div id="submitted-data" class="submitted-data">
+      <h3>Submitted Data:</h3>
+      <div id="data-list"></div>
+    </div>
+  </div>
+
+  <script>
+    var entryCount = 0; // Counter for entry numbers
+
+    document.getElementById('registration-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      // Get form values
+      var name = document.getElementById('name').value;
+      var email = document.getElementById('email').value;
+      var age = document.getElementById('age').value;
+      var image = document.getElementById('image').files[0];
+      var languages = document.querySelectorAll('input[name="languages"]:checked');
+      var selectedLanguages = Array.from(languages).map(function(language) {
+        return language.value;
+      });
+
+      // Display submitted data
+      var dataList = document.getElementById('data-list');
+      var dataDiv = document.createElement('div');
+      dataDiv.classList.add('data-entry'); // Add a class for styling
+
+      var img = document.createElement('img');
+      img.src = URL.createObjectURL(image);
+      img.alt = name;
+      dataDiv.appendChild(img);
+
+      var entryText = document.createElement('p');
+      entryText.textContent = 'Entry: ' + (++entryCount); // Increment and display entry number
+      dataDiv.appendChild(entryText);
+
+      var nameText = document.createElement('p');
+      nameText.textContent = 'Name: ' + name;
+      dataDiv.appendChild(nameText);
+
+      var emailText = document.createElement('p');
+      emailText.textContent = 'Email: ' + email;
+      dataDiv.appendChild(emailText);
+
+      var ageText = document.createElement('p');
+      ageText.textContent = 'Age: ' + age;
+      dataDiv.appendChild(ageText);
+
+      var languagesText = document.createElement('p');
+      languagesText.textContent = 'Interests: ' + selectedLanguages.join(', ');
+      dataDiv.appendChild(languagesText);
+
+      dataList.appendChild(dataDiv);
+
+      // Clear form fields
+      document.getElementById('name').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('age').value = '';
+      document.getElementById('image').value = '';
+      languages.forEach(function(language) {
+        language.checked = false;
+      });
+    });
+  </script>
+</body>
+</html>
